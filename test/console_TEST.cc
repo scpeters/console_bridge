@@ -6,6 +6,7 @@
 //////////////////////////////////////////////////
 TEST(ConsoleTest, MacroExpansionTest_ItShouldCompile)
 {
+  int ERROR = 0;
   if (true)
     logDebug("Testing Log");
 
