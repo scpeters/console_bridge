@@ -25,3 +25,10 @@ TEST(ConsoleTest, MacroExpansionTest_ItShouldCompile)
     CONSOLE_BRIDGE_logDebug("Testing Log");
   }
 }
+
+//////////////////////////////////////////////////
+TEST(ConsoleTest, TestWideCharacters)
+{
+  CONSOLE_BRIDGE_logWarn("English characters");
+  CONSOLE_BRIDGE_logWarn("我是新手");
+}
