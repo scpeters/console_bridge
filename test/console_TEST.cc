@@ -284,20 +284,6 @@ private:
   std::string log_filename_;
 };
 
-TEST_F(FileHandlerTest, TestInformDoesntLog) {
-  // Use scoping to call ~OutputHandlerFile() and force in to flush contents and close file
-  {
-    const std::string text = "Some logging text";
-    console_bridge::OutputHandlerFile handler(log_filename());
-    console_bridge::useOutputHandler(&handler);
-    console_bridge::setLogLevel(console_bridge::CONSOLE_BRIDGE_LOG_WARN);
-    CONSOLE_BRIDGE_logInform("This shouldn't log to file because it's only inform");
-  }
-
-  const std::string result = getTextFromLogFile();
-  EXPECT_TRUE(result.empty()) << "Log file was not empty, it contained:\n\n" << result;
-}
-
 TEST_F(FileHandlerTest, TestErrorLogs) {
   const std::string text = "Some logging text";
 
@@ -313,6 +299,20 @@ TEST_F(FileHandlerTest, TestErrorLogs) {
   // Just checking that expected text is in the file, not checking full log statement.
   EXPECT_NE(result.find(expected_text), result.npos)
     << "Log file did not contain expected text, instead it contained:\n\n: " << result;
+}
+
+TEST_F(FileHandlerTest, TestInformDoesntLog) {
+  // Use scoping to call ~OutputHandlerFile() and force in to flush contents and close file
+  {
+    const std::string text = "Some logging text";
+    console_bridge::OutputHandlerFile handler(log_filename());
+    console_bridge::useOutputHandler(&handler);
+    console_bridge::setLogLevel(console_bridge::CONSOLE_BRIDGE_LOG_WARN);
+    CONSOLE_BRIDGE_logInform("This shouldn't log to file because it's only inform");
+  }
+
+  const std::string result = getTextFromLogFile();
+  EXPECT_TRUE(result.empty()) << "Log file was not empty, it contained:\n\n" << result;
 }
 
 TEST_F(FileHandlerTest, TestInformLogsWithLogLevel) {
